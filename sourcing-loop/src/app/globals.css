@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+/*
+ * One deliberate light theme. Sourcing is read-heavy work — long summaries,
+ * quoted evidence, side-by-side comparison — and a single well-tuned warm
+ * light palette is easier to keep consistent than two half-tuned ones.
+ */
+@theme {
+  --color-canvas: #faf9f7;
+  --color-surface: #ffffff;
+  --color-sunken: #f4f2ee;
+  --color-line: #e7e3dc;
+  --color-line-strong: #d6d1c8;
+
+  --color-ink: #16161a;
+  --color-ink-soft: #55524c;
+  --color-ink-faint: #85807a;
+
+  --color-accent: #1f4ed8;
+  --color-accent-soft: #eef2ff;
+  --color-accent-line: #c7d2fe;
+
+  --color-strong: #0f7a55;
+  --color-strong-soft: #e8f5ef;
+  --color-possible: #9a6412;
+  --color-possible-soft: #fdf3e3;
+  --color-weak: #6b6862;
+  --color-weak-soft: #f1efeb;
+  --color-danger: #b3261e;
+  --color-danger-soft: #fdeeed;
+
+  --font-display: var(--font-display), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-canvas);
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Small, shared motion vocabulary. Everything that appears, appears the same way. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+.animate-rise {
+  animation: rise 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 1.6s ease-in-out infinite;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-sunken) 25%,
+    #fbfaf8 37%,
+    var(--color-sunken) 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-pulse-soft,
+  .skeleton {
+    animation: none;
+  }
+}
+
+/* Scrollbars inside the rails, kept quiet. */
+.scroll-rail {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+.scroll-rail::-webkit-scrollbar {
+  width: 8px;
+}
+.scroll-rail::-webkit-scrollbar-thumb {
+  background: var(--color-line-strong);
+  border-radius: 999px;
+}
+
+::selection {
+  background: var(--color-accent-soft);
+}
