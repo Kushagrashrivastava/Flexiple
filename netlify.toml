@@ -3,5 +3,15 @@
   command = "npm run build"
   publish = ".next"
 
+  # GROQ_API_KEY is read server-side only, at request time, inside Route
+  # Handlers (src/lib/llm/client.ts) — it never reaches client-side code or
+  # the RSC payload sent to the browser (page.tsx only forwards a boolean
+  # `hasApiKey`, never the key itself). Netlify's secrets scanner still flags
+  # it because the value is present in the compiled server function bundle,
+  # which is expected and necessary for the function to work at runtime.
+  # This is the fix Netlify's own docs recommend for that exact case.
+  [build.environment]
+    SECRETS_SCAN_OMIT_KEYS = "GROQ_API_KEY"
+
 [[plugins]]
   package = "@netlify/plugin-nextjs"
